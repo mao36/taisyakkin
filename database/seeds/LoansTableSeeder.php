@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Loan;
 
 class LoansTableSeeder extends Seeder
 {
@@ -11,6 +12,22 @@ class LoansTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Loan::create([
+            'lending_id' => 2,
+            'borrowed_id' => 1,
+            'title' => '項目名',
+            'money' => 100,
+            'due_on' => 2022 . '-' . 10 . '-' . 31
+        ]);
+
+        for ($i = 1; $i <= 9; $i++) {
+            Loan::create([
+                'lending_id' => 1,
+                'borrowed_id' => $i + 1,
+                'title' => '項目名',
+                'money' => 100,
+                'due_on' => 2022 . '-' . 10 . '-' . 31
+            ]);
+        }
     }
 }

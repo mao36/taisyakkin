@@ -15,8 +15,13 @@ class CreateBelongsTable extends Migration
     {
         Schema::create('belongs', function (Blueprint $table) {
             $table->bigIncrements('id');
-
+            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+            $table->dropColumn('updated_at');
+
+            $table->foreign('group_id')->references('id')->on('groups');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
