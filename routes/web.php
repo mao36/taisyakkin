@@ -11,6 +11,27 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+//ログインページ
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+
+//ログイン機能
+Route::post('login', 'Auth\LoginController@login');
+
+//新規登録ページ
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+
+//新規登録機能
+Route::post('register', 'Auth\RegisterController@register');
+
+//ログアウト
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+
+//トップページ
+Route::get('/', 'LoanController@top')->name('top');
