@@ -128,3 +128,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('image/update', 'UserController@imageUpdate')->name('image.update');
 
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
