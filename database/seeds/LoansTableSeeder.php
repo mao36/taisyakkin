@@ -17,6 +17,7 @@ class LoansTableSeeder extends Seeder
             'borrowed_id' => 1,
             'title' => '項目名',
             'money' => 100,
+            'lending_on' => now(),
             'due_on' => 2022 . '-' . 10 . '-' . 31
         ]);
 
@@ -26,6 +27,7 @@ class LoansTableSeeder extends Seeder
                 'borrowed_id' => $i + 1,
                 'title' => '項目名',
                 'money' => 100,
+                'lending_on' => now(),
                 'due_on' => 2022 . '-' . 10 . '-' . 31
             ]);
         }

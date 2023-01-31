@@ -19,6 +19,7 @@ class CreateLoansTable extends Migration
             $table->unsignedBigInteger('borrowed_id');
             $table->string('title');
             $table->unsignedBigInteger('money');
+            $table->date('lending_on');
             $table->date('due_on')->nullable();
             $table->date('returned_on')->nullable();
             $table->timestamps();

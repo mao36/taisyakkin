@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
         for ($i = 1; $i <= 10; $i++) {
             User::create([
                 'name' => 'test' . $i,
-                'mail' => 'test' . $i . '@gmail.com',
+                'email' => 'test' . $i . '@gmail.com',
                 'password' => Hash::make('password')
             ]);
         }
