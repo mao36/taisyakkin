@@ -46,7 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
     //タイシャク登録画面
     Route::post('loan/create', 'LoanController@create')->name('loans.create');
 
-    //タイシャク相手検索画面
+   //タイシャク相手選択画面
     Route::post('loan/create/user', 'LoanController@user')->name('loans.create.user');
 
     //タイシャク登録機能
