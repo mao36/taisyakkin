@@ -21,7 +21,7 @@ class CreateLoansTable extends Migration
             $table->unsignedBigInteger('money');
             $table->date('lending_on');
             $table->date('due_on')->nullable();
-            $table->date('returned_on')->nullable();
+            $table->date('repaid_on')->nullable();
             $table->timestamps();
 
             $table->foreign('lending_id')->references('id')->on('users');

@@ -41,7 +41,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('loans', 'LoanController@index')->name('loans.index');
 
     //返済済みページ
-    Route::get('loans/returned', 'LoanController@returned')->name('loans.returned');
+    Route::get('loans/repaid', 'LoanController@repaid')->name('loans.repaid');
+
+    //タイシャク登録画面
+    Route::post('loan/create', 'LoanController@create')->name('loans.create');
+
+    //タイシャク相手検索画面
+    Route::post('loan/create/user', 'LoanController@user')->name('loans.create.user');
 
     //タイシャク登録機能
     Route::post('loan/store', 'LoanController@store')->name('loans.store');
@@ -55,6 +61,9 @@ Route::group(['middleware' => 'auth'], function () {
     //タイシャク記録削除機能
     Route::delete('loans/{loan}/delete', 'LoanController@delete')->name('loans.delete');
 
+    //タイシャク返済登録機能
+    Route::delete('loans/{loan}/repay', 'LoanController@repay')->name('loans.repay');
+
     //お気に入りユーザーリストページ
     Route::get('likes', 'UserController@index')->name('likes.index');
 
@@ -64,33 +73,6 @@ Route::group(['middleware' => 'auth'], function () {
     //お気に入りユーザー解除機能
     Route::delete('users/{user}/unlike', 'UserController@unlike')->name('users.unlike');
 
-    //グループ一覧ページ
-    Route::get('groups', 'GroupController@index')->name('groups.index');
-
-    //グループ詳細ページ
-    Route::get('groups/{group}', 'GroupController@show')->name('groups.show');
-
-    //グループ詳細ページ/返済済み
-    Route::get('groups/{group}/returned', 'GroupController@returned')->name('groups.returned');
-
-    //グループ作成機能
-    Route::post('group/store', 'GroupController@store')->name('groups.store');
-
-    //グループ編集ページ
-    Route::put('groups/{group}/edit', 'GroupController@edit')->name('groups.edit');
-
-    //グループ名変更機能
-    Route::delete('group/{group}/name-update', 'GroupController@nameUpdate')->name('groups.name.update');
-
-    //グループ削除機能
-    Route::delete('groups/{group}/delete', 'GroupController@delete')->name('groups.delete');
-
-    //グループにユーザー登録機能
-    Route::post('groups/{group}/users/{user}/add', 'GroupController@add')->name('groups.add');
-
-    //グループからユーザー解除機能
-    Route::delete('groups/{group}/users/{user}/remove', 'GroupController@remove')->name('groups.remove');
-
     //ユーザー検索ページ・機能
     Route::get('search', 'UserController@search')->name('search');
 
@@ -98,7 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('users/{user}', 'UserController@show')->name('users.show');
 
     //他者プロフィールページ/返済済み
-    Route::get('users/{user}/returned', 'UserController@returned')->name('users.returned');
+    Route::get('users/{user}/repaid', 'UserController@repaid')->name('users.repaid');
 
     //マイプロフィールページ
     Route::get('my-profile', 'UserController@myProfile')->name('my-profile');
@@ -128,7 +110,3 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('image/update', 'UserController@imageUpdate')->name('image.update');
 
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
