@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'image'
     ];
 
     /**
@@ -36,4 +37,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function Loans()
+    {
+        return $this->hasMany('App\Loans');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany('App\Like');
+    }
+
+    public function isLikedBy(User $user)
+    {
+        return (bool) $this->likes()->where('liked_id', $user)->count();
+    }
 }

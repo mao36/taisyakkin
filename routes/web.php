@@ -49,6 +49,9 @@ Route::group(['middleware' => 'auth'], function () {
    //タイシャク相手選択画面
     Route::post('loan/create/user', 'LoanController@user')->name('loans.create.user');
 
+   //タイシャク相手選択機能
+    Route::post('loan/create/{user}/select', 'LoanController@select')->name('loans.create.select');
+
     //タイシャク登録機能
     Route::post('loan/store', 'LoanController@store')->name('loans.store');
 
@@ -65,13 +68,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('loans/{loan}/repay', 'LoanController@repay')->name('loans.repay');
 
     //お気に入りユーザーリストページ
-    Route::get('likes', 'UserController@index')->name('likes.index');
+    Route::get('likes', 'UserController@likesIndex')->name('likes.index');
 
     //お気に入りユーザー登録機能
-    Route::post('users/{user}/like', 'UserController@like')->name('users.like');
+    Route::post('users/{user}/like', 'UserController@like')->name('like');
 
     //お気に入りユーザー解除機能
-    Route::delete('users/{user}/unlike', 'UserController@unlike')->name('users.unlike');
+    Route::delete('users/{user}/unlike', 'UserController@unlike')->name('unlike');
 
     //ユーザー検索ページ・機能
     Route::get('search', 'UserController@search')->name('search');

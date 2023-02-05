@@ -43,7 +43,7 @@ class UserController extends Controller
     }
 
     //ユーザー検索ページ・機能
-    public function search(Request $request) //product 参照
+    public function search(Request $request)
     {
         $users = User::where('name', 'LIKE', '%' . $request->keyword . '%')
             ->paginate(5);
@@ -54,22 +54,24 @@ class UserController extends Controller
     public function show(int $user, $tab = null)
     {
         $user = User::find($user);
-        if ($tab == 1) { //借リストを表示
-            $loans = Loan::where([
+        $lendingLoans = Loan::where([
                 ['lending_id', $user->id()],
                 ['borrowed_id', Auth::id()],
                 ['repaid_on', null]
             ])
                 ->paginate(5);
-            return view('user.show.Borrowed', compact('user', 'loans'));
+        $lendingMoney = $lendingLoans->sum('money');
+        $borrowedLoans = Loan::where([
+            ['lending_id', Auth::id()],
+            ['borrowed_id', $user->id()],
+            ['repaid_on', null]
+        ])
+            ->paginate(5);
+        $borrowedMoney = $borrowedLoans->sum('money');
+        if($tab == 1) { //借リストを表示
+            return view('user.show.Borrowed', compact('user', 'lendingLoans', 'borrowedMoney'));
         } else { //1以外なら貸リストを表示
-            $loans = Loan::where([
-                ['lending_id', Auth::id()],
-                ['borrowed_id', $user->id()],
-                ['repaid_on', null]
-            ])
-                ->paginate(5);
-            return view('user.show.Lending', compact('user', 'loans'));
+            return view('user.show.Lending', compact('user', 'borrowedLoans', 'borrowedMoney'));
         }
     }
 
@@ -130,7 +132,7 @@ class UserController extends Controller
         User::where('id', Auth::id())
             ->update(['email' => $request->email]);
         return redirect()->route('my-profile')
-        ->with('flash_message', '編集が完了しました');
+            ->with('flash_message', '編集が完了しました');
     }
 
     //パスワード変更ページ
@@ -145,7 +147,7 @@ class UserController extends Controller
         User::where('id', Auth::id())
             ->update(['password' => Hash::make($request->password)]);
         return redirect()->route('my-profile')
-        ->with('flash_message', '編集が完了しました');
+            ->with('flash_message', '編集が完了しました');
     }
 
     //プロフィール画像変更ページ
@@ -161,6 +163,6 @@ class UserController extends Controller
         User::where('id', Auth::id())
             ->update(['image' => $request->image]);
         return redirect()->route('my-profile')
-        ->with('flash_message', '編集が完了しました');
+            ->with('flash_message', '編集が完了しました');
     }
 }
