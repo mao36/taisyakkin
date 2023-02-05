@@ -18,7 +18,7 @@ class UserController extends Controller
         $likes = Like::where('liking_id', Auth::id())
             ->latest()
             ->paginate(5);
-        return view('', compact('likes'));
+        return view('user.likeIndex', compact('likes'));
     }
 
     //お気に入りユーザー登録機能
@@ -47,7 +47,7 @@ class UserController extends Controller
     {
         $users = User::where('name', 'LIKE', '%' . $request->keyword . '%')
             ->paginate(5);
-        return view('search', compact('users'));
+        return view('user.search', compact('users'));
     }
 
     //他者プロフィールページ
@@ -69,9 +69,9 @@ class UserController extends Controller
             ->paginate(5);
         $borrowedMoney = $borrowedLoans->sum('money');
         if($tab == 1) { //借リストを表示
-            return view('user.show.Borrowed', compact('user', 'lendingLoans', 'borrowedMoney'));
+            return view('user.showBorrowed', compact('user', 'lendingLoans', 'borrowedMoney'));
         } else { //1以外なら貸リストを表示
-            return view('user.show.Lending', compact('user', 'borrowedLoans', 'borrowedMoney'));
+            return view('user.showLending', compact('user', 'borrowedLoans', 'borrowedMoney'));
         }
     }
 
@@ -86,7 +86,7 @@ class UserController extends Controller
                 ['repaid_on', '!=', null]
             ])
                 ->paginate(5);
-            return view('user.repaid.Borrowed', compact('user', 'loans'));
+            return view('user.repaidBorrowed', compact('user', 'loans'));
         } else { //1以外なら貸リストを表示
             $loans = Loan::where([
                 ['lending_id', Auth::id()],
@@ -94,7 +94,7 @@ class UserController extends Controller
                 ['repaid_on', '!=', null]
             ])
                 ->paginate(5);
-            return view('user.repaid.Lending', compact('user', 'loans'));
+            return view('user.repaidLending', compact('user', 'loans'));
         }
     }
 
@@ -157,11 +157,15 @@ class UserController extends Controller
     }
 
     //プロフィール画像変更機能
-    public function imageUpdate(UserRequest $request,)
+    public function imageUpdate(UserRequest $request)
     {
-        Storage::delete('public/slide/' . Auth::image());
-        User::where('id', Auth::id())
-            ->update(['image' => $request->image]);
+        $user = Auth::user();
+        if (isset($user->image)) {
+            Storage::delete('public/user_image/' . $user->image);
+        }
+        $file_name = $request['file']->store('public/user_image/');
+        $user->image = basename($file_name);
+        $user->save();
         return redirect()->route('my-profile')
             ->with('flash_message', '編集が完了しました');
     }

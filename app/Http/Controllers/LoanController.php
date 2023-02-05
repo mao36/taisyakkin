@@ -13,7 +13,7 @@ class LoanController extends Controller
     public function top()
     {
         $user = Auth::user();
-        return view('top', compact('user'));
+        return view('loan.top', compact('user'));
     }
 
     //タイシャクリストページ
@@ -25,14 +25,14 @@ class LoanController extends Controller
                 ['repaid_on', null]
             ])
                 ->paginate(5);
-            return view('index.Borrowed', compact('loans'));
+            return view('loan.indexBorrowed', compact('loans'));
         } else { //1以外なら貸リストを表示
             $loans = Loan::where([
                 ['borrowed_id', Auth::id()],
                 ['repaid_on', null]
             ])
                 ->paginate(5);
-            return view('index.Lending', compact('loans'));
+            return view('loan.indexLending', compact('loans'));
         }
     }
 
@@ -45,34 +45,28 @@ class LoanController extends Controller
                 ['repaid_on', '!=', null]
             ])
                 ->paginate(5);
-            return view('rapaid.Borrowed', compact('loans'));
+            return view('loan.repaidBorrowed', compact('loans'));
         } else { //1以外なら貸リストを表示
             $loans = Loan::where([
                 ['borrowed_id', Auth::id()],
                 ['repaid_on', '!=', null]
             ])
                 ->paginate(5);
-            return view('rapaid.Lending', compact('loans'));
+            return view('loan.repaidLending', compact('loans'));
         }
     }
 
     //タイシャク登録画面
-    public function create()
+    public function create(int $user)
     {
-        return view('loans.create');
+        return view('loan.create', compact('$user'));
     }
     //タイシャク相手選択画面
     public function user(Request $request)
     {
         $users = User::where('name', 'LIKE', '%' . $request->keyword . '%')
             ->paginate(5);
-        return view('search', compact('users'));
-    }
-
-    //タイシャク相手選択機能
-    public function select(int $user)
-    {
-        return view('loans.create', compact('$user'));
+        return view('Loan.user', compact('users'));
     }
 
     //タイシャク登録機能
@@ -86,7 +80,7 @@ class LoanController extends Controller
     //貸借編集ページ
     public function edit(Loan $loan)
     {
-        return view('loans.edit', compact('loan'));
+        return view('loan.edit', compact('loan'));
     }
     //貸借編集機能
     public function update(LoanRequest $request)
