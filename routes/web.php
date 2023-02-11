@@ -23,16 +23,16 @@ Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('re
 //新規登録機能
 Route::post('register', 'Auth\RegisterController@register');
 
+//登録完了ページ
+Route::get('added', 'Auth\RegisterController@added')->name('added');
+
 Route::group(['middleware' => 'auth'], function () {
 
-    //登録完了ページ
-    Route::post('added', 'Auth\RegisterController@added');
-
     //ログアウト
-    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+    Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
     //トップページ
-    Route::get('/', 'LoanController@top')->name('top');
+    Route::get('/', 'LoanController@home')->name('home');
 
     //タイシャクリストページ
     Route::get('loans', 'LoanController@index')->name('loans.index');

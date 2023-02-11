@@ -14,12 +14,16 @@
   <div id="app">
     <header>
       <div class="header-left">
-        <a href="{{ route() }}" class=header-logo>
+        <a href="{{ route('home') }}" class=header-logo>
           <img src="{{ asset('images/logo.png') }}" alt="logo">
         </a>
       </div>
     </header>
     <main>
+      <div class="title">
+        <p>お金の貸し借り管理アプリ</p>
+        <h1>タイシャッキン</h1>
+      </div>
       @yield('content')
     </main>
   </div>

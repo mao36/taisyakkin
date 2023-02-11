@@ -14,18 +14,18 @@
   <div id="app">
     <header>
       <div class="header-left">
-        <a href="{{ route() }}" class=header-logo>
+        <a href="{{ route('home') }}" class=header-logo>
           <img src="{{ asset('images/logo.png') }}" alt="logo">
         </a>
       </div>
       <div class="header-right">
 
-        @if (isset(Auth::user()->icon))
-        <img src="{{ asset('storage/user_image/' . Auth::image()) }}" alt="user_image">
+        @if (!empty(Auth::user()->image))
+        <img src="{{ asset('storage/user_image/' . Auth::user()->image) }}" alt="user_image">
         @else
         <img src="{{ asset('images/default_user_image.png') }}" alt="default_icon">
         @endif
-        <p class="user-name">{{ Auth::name() }}</p>
+        <p class="user-name">{{ Auth::user()->name }}</p>
         <img src="images/pulldown.png" alt="pulldown">
       </div>
     </header>
@@ -34,7 +34,7 @@
       </li>
       <div id="side-bar">
           <ul>
-            <li><a href="{{ route('top') }}">トップページ</a></li>
+            <li><a href="{{ route('home') }}">トップページ</a></li>
             <li><a href="{{ route('loans.create') }}">タイシャク登録</a></li>
             <li><a href="{{ route('loans.index') }}">タイシャクリスト</a></li>
             <li><a href="{{ route('likes.index') }}">お気に入りユーザー</a></li>

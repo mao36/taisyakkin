@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoanRequest;
+use App\Loan;
 
 
 class LoanController extends Controller
 {
     //トップページ
-    public function top()
+    public function home(Loan $loan)
     {
         $user = Auth::user();
-        return view('loan.top', compact('user'));
+        return view('loan.home', compact('user', 'loan'));
     }
 
     //タイシャクリストページ
